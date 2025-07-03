@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#ff6b81">
+  <title>آمیرزا پرو | راهنمای پیشرفته کلمات</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/fonts.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #ff6b81;
+      --primary-dark: #ff4757;
+      --primary-light: #ff8a9d;
+      --secondary: #70a1ff;
+      --secondary-dark: #5352ed;
+      --dark: #2f3542;
+      --darker: #1e272e;
+      --light: #f1f2f6;
+      --lighter: #ffffff;
+      --gray: #a4b0be;
+      --success: #7bed9f;
+      --warning: #ffa502;
+      --info: #1e90ff;
+      --glass: rgba(255, 255, 255, 0.2);
+      --glass-border: rgba(255, 255, 255, 0.3);
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+      --shadow-md: 0 8px 30px rgba(0, 0, 0, 0.15);
+      --shadow-lg: 0 15px 50px rgba(0, 0, 0, 0.2);
+      --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      --transition-slow: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+      --radius-sm: 12px;
+      --radius-md: 18px;
+      --radius-lg: 24px;
+      --radius-xl: 36px;
+    }
+
+    /* تم‌های رنگی */
+    .theme-light {
+      --bg: var(--light);
+      --text: var(--darker);
+      --card: var(--lighter);
+      --border: rgba(0, 0, 0, 0.1);
+      --glass: rgba(255, 255, 255, 0.7);
+      --glass-border: rgba(255, 255, 255, 0.8);
+    }
+    .theme-dark {
+      --bg: #1a1a2e;
+      --text: var(--light);
+      --card: #16213e;
+      --border: rgba(255, 255, 255, 0.1);
+      --glass: rgba(30, 30, 60, 0.7);
+      --glass-border: rgba(60, 60, 100, 0.8);
+    }
+    .theme-blue {
+      --bg: #e6f7ff;
+      --text: #003366;
+      --card: #ffffff;
+      --border: rgba(0, 102, 204, 0.1);
+      --glass: rgba(230, 247, 255, 0.7);
+      --glass-border: rgba(200, 230, 255, 0.8);
+    }
+    .theme-pink {
+      --bg: #fff0f6;
+      --text: #660033;
+      --card: #ffffff;
+      --border: rgba(204, 0, 102, 0.1);
+      --glass: rgba(255, 240, 246, 0.7);
+      --glass-border: rgba(255, 220, 236, 0.8);
+    }
+    .theme-glass {
+      --bg: rgba(255, 255, 255, 0.1);
+      --text: var(--darker);
+      --card: var(--glass);
+      --border: var(--glass-border);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Vazirmatn', sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      transition: var(--transition-slow);
+      line-height: 1.6;
+      background-image: url('https://pplx-res.cloudinary.com/image/upload/v1751549324/user_uploads/75313004/c301635b-7acf-491d-87b9-667cc696e83c/1000154219.jpg');
+      background-size: cover;
+      background-attachment: fixed;
+      background-position: center;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      opacity: 0.1;
+      z-index: -1;
+    }
+
+    /* ... بقیه کدهای CSS همانند نسخه قبلی ... */
+    /* برای خلاصه‌سازی، فقط بخش body تغییر کرده و بقیه کدها بدون تغییر هستند */
+    /* اگر کل CSS را می‌خواهی، همین کد را با بقیه استایل‌ها در فایل قرار بده */
+  </style>
+</head>
+<body class="theme-light">
+  <!-- دکمه نصب PWA -->
+  <div class="install-btn" id="installBtn">
+    <i class="fas fa-download"></i>
+    نصب برنامه
+  </div>
+
+  <div class="container">
+    <!-- ساعت آنالوگ و دیجیتال -->
+    <div class="clock-container">
+      <div class="clock">
+        <div class="clock-face">
+          <div class="hand hour-hand" id="hourHand"></div>
+          <div class="hand minute-hand" id="minuteHand"></div>
+          <div class="hand second-hand" id="secondHand"></div>
+          <div class="center-circle"></div>
+        </div>
+      </div>
+      <div class="digital-clock" id="digitalClock">
+        <i class="far fa-clock"></i>
+        <span id="clockText">00:00:00</span>
+      </div>
+    </div>
+    
+    <!-- کنترل‌های تم -->
+    <div class="theme-controls">
+      <button class="theme-btn active" id="lightMode" title="تم روشن">
+        <i class="fas fa-sun"></i>
+      </button>
+      <button class="theme-btn" id="darkMode" title="تم تاریک">
+        <i class="fas fa-moon"></i>
+      </button>
+      <button class="theme-btn" id="systemMode" title="حالت خودکار">
+        <i class="fas fa-adjust"></i>
+      </button>
+      <button class="theme-btn" id="blueMode" title="تم آبی">
+        <i class="fas fa-tint"></i>
+      </button>
+      <button class="theme-btn" id="pinkMode" title="تم صورتی">
+        <i class="fas fa-heart"></i>
+      </button>
+      <button class="theme-btn" id="glassMode" title="تم شیشه‌ای">
+        <i class="fas fa-glass-whiskey"></i>
+      </button>
+    </div>
+    
+    <!-- هدر -->
+    <header>
+      <div class="logo">
+        <h1>آمیرزا پرو</h1>
+      </div>
+      <p class="tagline">
+        راهنمای جامع و پیشرفته بازی آمیرزا با قابلیت‌های منحصر به فرد. ساعت زنده، دستگاه شبیه‌ساز، نقشه مراحل و امکانات خاص دیگر!
+      </p>
+    </header>
+    
+    <!-- بخش جستجو -->
+    <div class="search-container">
+      <div class="search-box">
+        <div class="search-header">
+          <div class="search-icon">
+            <i class="fas fa-search"></i>
+          </div>
+          <h2>جستجوی مرحله مورد نظر</h2>
+        </div>
+        <div class="input-group">
+          <input 
+            type="number" 
+            id="levelInput" 
+            class="search-input"
+            placeholder="شماره مرحله را وارد کنید..." 
+            min="1"
+            aria-label="شماره مرحله"
+          >
+          <button id="searchBtn" class="search-btn" aria-label="جستجوی مرحله">
+            <i class="fas fa-search"></i>
+            جستجو
+          </button>
+        </div>
+        <div class="suggestions" id="suggestions"></div>
+      </div>
+    </div>
+    
+    <!-- لودینگ -->
+    <div class="loader" id="loader">
+      <div class="spinner"></div>
+      <p>در حال بارگذاری نتایج...</p>
+    </div>
+    
+    <!-- نتایج -->
+    <div class="results-container" id="resultsContainer">
+      <div class="results-header">
+        <h3 class="results-title">کلمات مرحله</h3>
+        <div class="level-info">
+          <i class="fas fa-hashtag"></i>
+          <span id="currentLevel">1</span>
+          <div class="level-actions">
+            <button class="action-btn" id="favoriteBtn" title="افزودن به علاقه‌مندی‌ها">
+              <i class="far fa-heart"></i>
+            </button>
+            <button class="action-btn" id="shareBtn" title="اشتراک‌گذاری">
+              <i class="fas fa-share-alt"></i>
+            </button>
+            <button class="action-btn" id="speakBtn" title="پخش صوتی">
+              <i class="fas fa-volume-up"></i>
+              <div class="volume-control">
+                <i class="fas fa-volume-down"></i>
+                <input type="range" min="0" max="1" step="0.1" value="0.8" class="volume-slider" id="volumeSlider">
+                <i class="fas fa-volume-up"></i>
+              </div>
+            </button>
+            <button class="action-btn" id="mapBtn" title="نمایش نقشه مراحل">
+              <i class="fas fa-map"></i>
+            </button>
+            <button class="action-btn" id="statsBtn" title="آمار کاربر">
+              <i class="fas fa-chart-pie"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <div class="words-grid" id="wordsGrid"></div>
+      
+      <div class="pagination" id="pagination"></div>
+    </div>
+    
+    <!-- دستگاه شبیه‌ساز -->
+    <div class="amirza-device" id="amirzaDevice">
+      <div class="device-header">
+        <h3 class="device-title">
+          <i class="fas fa-mobile-alt"></i>
+          دستگاه شبیه‌ساز آمیرزا
+        </h3>
+        <button class="device-close" id="closeDevice">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="device-screen">
+        <div class="word-progress" id="wordProgress">1 از 5</div>
+        <div class="word-display" id="wordDisplay"></div>
+        <div class="typing-cursor"></div>
+      </div>
+      <div class="device-actions">
+        <button class="device-btn" id="prevWordBtn">
+          <i class="fas fa-chevron-right"></i>
+          کلمه قبل
+        </button>
+        <button class="device-btn" id="speakWordBtn">
+          <i class="fas fa-volume-up"></i>
+          تلفظ
+        </button>
+        <button class="device-btn" id="nextWordBtn">
+          <i class="fas fa-chevron-left"></i>
+          کلمه بعد
+        </button>
+        <button class="device-btn" id="autoPlayBtn">
+          <i class="fas fa-play"></i>
+          پخش خودکار
+        </button>
+      </div>
+    </div>
+    
+    <!-- نقشه مراحل -->
+    <div class="levels-map" id="levelsMap">
+      <div class="map-header">
+        <h3 class="map-title">
+          <i class="fas fa-map-marked-alt"></i>
+          نقشه مراحل
+        </h3>
+        <button class="device-btn" id="closeMap">
+          <i class="fas fa-times"></i>
+          بستن
+        </button>
+      </div>
+      <div class="map-container">
+        <div class="map-grid" id="mapGrid"></div>
+      </div>
+    </div>
+    
+    <!-- آمار کاربر -->
+    <div class="user-stats" id="userStats">
+      <div class="stats-header">
+        <h3 class="stats-title">
+          <i class="fas fa-chart-line"></i>
+          آمار و عملکرد شما
+        </h3>
+        <button class="device-btn" id="closeStats">
+          <i class="fas fa-times"></i>
+          بستن
+        </button>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon">
+            <i class="fas fa-hashtag"></i>
+          </div>
+          <div class="stat-value" id="totalLevels">0</div>
+          <div class="stat-label">مرحله مشاهده شده</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">
+            <i class="fas fa-book"></i>
+          </div>
+          <div class="stat-value" id="totalWords">0</div>
+          <div class="stat-label">کلمه یادگرفته</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">
+            <i class="fas fa-heart"></i>
+          </div>
+          <div class="stat-value" id="favoriteCount">0</div>
+          <div class="stat-label">علاقه‌مندی</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">
+            <i class="fas fa-history"></i>
+          </div>
+          <div class="stat-value" id="lastVisit">0</div>
+          <div class="stat-label">روز گذشته</div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- فوتر -->
+    <footer>
+      <div class="footer-content">
+        <div class="footer-logo">آمیرزا پرو</div>
+        <p class="footer-description">
+          راهنمای جامع و پیشرفته بازی آمیرزا با قابلیت‌های منحصر به فرد. این برنامه به شما کمک می‌کند تا تمام مراحل بازی را با موفقیت پشت سر بگذارید.
+        </p>
+        <div class="social-links">
+          <a href="https://instagram.com/source_donii" class="social-link" aria-label="اینستاگرام"><i class="fab fa-instagram"></i></a>
+          <a href="https://t.me/source_donii" class="social-link" aria-label="تلگرام"><i class="fab fa-telegram"></i></a>
+          <a href="https://github.com/source-donii" class="social-link" aria-label="گیت هاب"><i class="fab fa-github"></i></a>
+          <a href="https://youtube.com/source_donii" class="social-link" aria-label="یوتیوب"><i class="fab fa-youtube"></i></a>
+        </div>
+        <nav class="footer-nav">
+          <a href="#">درباره ما</a>
+          <a href="#">تماس با ما</a>
+          <a href="#">قوانین</a>
+          <a href="#">حریم خصوصی</a>
+          <a href="#">سوالات متداول</a>
+        </nav>
+        <p class="copyright">تمامی حقوق برای آمیرزا پرو محفوظ است © ۱۴۰۴</p>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>
